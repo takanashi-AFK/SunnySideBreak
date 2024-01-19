@@ -8,15 +8,21 @@ WindowManager& WindowManager::GetInstance()
 
 bool WindowManager::InitializeAllWindow(HINSTANCE _hInstance, int _nCmdShow)
 {
+	 bool success = true;
     for (const auto& e : windowInstanceContainer)
-        if (e.second->Initialize(_hInstance, _nCmdShow)) {
-            return true;
+        if (!e.second->Initialize(_hInstance, _nCmdShow)) {
+            return false;
         }
-    return false;
+    return success;
 }
 
 bool WindowManager::ReleaseAllWindow()
 {
+	for (const auto& e : windowInstanceContainer)
+		delete e.second;
+	
+	windowInstanceContainer.clear();
+
     return false;
 }
 

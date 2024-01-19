@@ -15,7 +15,7 @@ public:
 	//mapの中に入っているすべてのwindowのInitializeを呼ぶ関数 InitializeAll()適な
 	bool InitializeAllWindow(HINSTANCE _hInstance,int _nCmdShow);
 
-	//Mapの中に入っているすべてのwindowのReleaceを呼ぶ関数	  ReleaceAll()的な
+	//Mapの中に入っているすべてのwindowのReleaseを呼ぶ関数	  ReleaseAll()的な
 	bool ReleaseAllWindow();
 
 	//Mapにウィンドウ名とインスタンスを格納するための関数	AddInstance()的な

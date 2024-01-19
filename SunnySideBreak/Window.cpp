@@ -1,6 +1,20 @@
 #include "Window.h"
 #include "Global.h"
 
+Window::Window() :
+	hWnd_(nullptr)
+{
+}
+
+Window::Window(const char* name)
+{
+	windowName = name;
+}
+
+Window::~Window()
+{
+}
+
 LRESULT Window::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg)
@@ -13,7 +27,7 @@ LRESULT Window::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 }
 
 bool Window::Initialize(HINSTANCE _hInstance,int _nCmdShow)
-{
+{	
 	CreateWindowClass(_hInstance);
 	ShowWindow(hWnd_, _nCmdShow);
 	return true;
@@ -24,12 +38,18 @@ void Window::Execute()
 	MessageLoop();
 }
 
+bool Window::Release()
+{
+	DestroyWindow(hWnd_);
+	return true;
+}
+
 bool Window::CreateWindowClass(HINSTANCE _hInstance)
 {
 	WNDCLASSEX wc{};
 	wc.cbSize = sizeof(WNDCLASSEX);             //この構造体のサイズ
 	wc.hInstance = _hInstance;                  //インスタンスハンドル
-	wc.lpszClassName = g_GameTitle;				//ウィンドウクラス名
+	wc.lpszClassName = windowName;				//ウィンドウクラス名
 	wc.lpfnWndProc = WndProc;                   //ウィンドウプロシージャ
 	wc.style = CS_VREDRAW | CS_HREDRAW;         //スタイル（デフォルト）
 	wc.hIcon = LoadIcon(NULL, IDI_APPLICATION); //アイコン
@@ -54,13 +74,13 @@ bool Window::CreateWindowClass(HINSTANCE _hInstance)
 
 	//ウィンドウを作成
 	hWnd_ = CreateWindow(
-		g_GameTitle,        //ウィンドウクラス名
-		g_GameTitle,    //タイトルバーに表示する内容
+		windowName,        //ウィンドウクラス名
+		windowName,    //タイトルバーに表示する内容
 		WS_OVERLAPPEDWINDOW, //スタイル（普通のウィンドウ）
 		CW_USEDEFAULT,       //表示位置左（おまかせ）
 		CW_USEDEFAULT,       //表示位置上（おまかせ）
-		g_WindowWidth,       //ウィンドウ幅
-		g_WindowHeight,      //ウィンドウ高さ
+		winW,       //ウィンドウ幅
+		winH,      //ウィンドウ高さ
 		NULL,                //親ウインドウ（なし）
 		NULL,                //メニュー（なし）
 		_hInstance,          //インスタンス
@@ -70,6 +90,8 @@ bool Window::CreateWindowClass(HINSTANCE _hInstance)
 	if (hWnd_ == nullptr) {
 		return false;
 	}
+
+	return true;
 
 }
 
