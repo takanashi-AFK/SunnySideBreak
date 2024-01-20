@@ -1,14 +1,18 @@
 #include "Window.h"
-#include "Global.h"
 
 Window::Window() :
-	hWnd_(nullptr)
+	hWnd_(nullptr), windowName(g_GameTitle), width(g_WindowWidth), height(g_WindowHeight)
 {
 }
 
-Window::Window(const char* name)
+Window::Window(const char* _name):
+	hWnd_(nullptr), windowName(_name), width(g_WindowWidth), height(g_WindowHeight)
 {
-	windowName = name;
+}
+
+Window::Window(const char* _name, int _windowSizeW, int _windowSizeH):
+	hWnd_(nullptr), windowName(_name), width(_windowSizeW), height(_windowSizeH)
+{
 }
 
 Window::~Window()
@@ -33,17 +37,12 @@ bool Window::Initialize(HINSTANCE _hInstance,int _nCmdShow)
 	return true;
 }
 
-void Window::Execute()
-{
-	MessageLoop();
-}
 
 bool Window::Release()
 {
 	DestroyWindow(hWnd_);
 	return true;
 }
-
 bool Window::CreateWindowClass(HINSTANCE _hInstance)
 {
 	WNDCLASSEX wc{};
@@ -66,7 +65,7 @@ bool Window::CreateWindowClass(HINSTANCE _hInstance)
 	}
 
 	//ウィンドウサイズの計算
-	RECT winRect = { 0, 0, g_WindowWidth, g_WindowHeight };
+	RECT winRect = { 0, 0, width, height };
 	AdjustWindowRect(&winRect, WS_OVERLAPPEDWINDOW, FALSE);
 	int winW = winRect.right - winRect.left;     //ウィンドウ幅
 	int winH = winRect.bottom - winRect.top;     //ウィンドウ高さ
@@ -95,20 +94,3 @@ bool Window::CreateWindowClass(HINSTANCE _hInstance)
 
 }
 
-void Window::MessageLoop()
-{
-	MSG msg;
-	ZeroMemory(&msg, sizeof(msg));
-	while (msg.message != WM_QUIT){
-		//メッセージあり
-		if (PeekMessage(&msg, NULL, 0U, 0U, PM_REMOVE)){
-			TranslateMessage(&msg);
-			DispatchMessage(&msg);
-		}
-
-		//メッセージなし
-		else{
-			//ゲームの処理
-		}
-	}
-}

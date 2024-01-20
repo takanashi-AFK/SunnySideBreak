@@ -3,6 +3,8 @@
 WindowManager& WindowManager::GetInstance()
 {
     static WindowManager instance;
+
+
     return instance;
 }
 
@@ -23,7 +25,7 @@ bool WindowManager::ReleaseAllWindow()
 	
 	windowInstanceContainer.clear();
 
-    return false;
+    return true;
 }
 
 bool WindowManager::AddInstance(std::string _windowName, Window* _windowInstance)
@@ -35,21 +37,3 @@ bool WindowManager::AddInstance(std::string _windowName, Window* _windowInstance
 	return true;
 }
 
-void WindowManager::MessageLoop()
-{
-	MSG msg;
-	ZeroMemory(&msg, sizeof(msg));
-	while (msg.message != WM_QUIT) {
-		//メッセージあり
-		if (PeekMessage(&msg, NULL, 0U, 0U, PM_REMOVE)) {
-			TranslateMessage(&msg);
-			DispatchMessage(&msg);
-		}
-
-		//メッセージなし
-		else {
-			//ゲームの処理
-		}
-	}
-
-}

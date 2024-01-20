@@ -127,11 +127,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Application.cpp" />
+    <ClCompile Include="D3D.cpp" />
+    <ClCompile Include="Global.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Window.cpp" />
     <ClCompile Include="WindowManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Application.h" />
+    <ClInclude Include="D3D.h" />
     <ClInclude Include="Global.h" />
     <ClInclude Include="Window.h" />
     <ClInclude Include="WindowManager.h" />
