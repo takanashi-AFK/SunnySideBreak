@@ -4,7 +4,6 @@ WindowManager& WindowManager::GetInstance()
 {
     static WindowManager instance;
 
-
     return instance;
 }
 

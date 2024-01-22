@@ -5,6 +5,8 @@
 
 /// <summary>
 /// windowクラスの作成、初期化、
+/// 後々procedureクラス内にaddProc関数的なのを作って各ウィンドウにprocを新しく適用させるようにしたい
+/// addproc(メッセージ,使う関数)みたいなやつ
 /// </summary>
 
 class Window

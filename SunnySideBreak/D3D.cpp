@@ -1,6 +1,10 @@
 #include "D3D.h"
-
-D3D::D3D()
+#include <d3dcompiler.h>
+D3D::D3D():
+	windowHandle(nullptr),windowSizeW(-1),windowSizeH(-1),
+	pDevice_(nullptr),pContext_(nullptr),pSwapChain_(nullptr),pRenderTargetView_(nullptr),
+	scDesc_{}, vp_{},
+	pVertexShader_(nullptr),pPixelShader_(nullptr),pVertexLayout_(nullptr), pRasterizerState_(nullptr)
 {
 }
 
@@ -19,6 +23,47 @@ bool D3D::Initialize(Window * w)
 	if (!CreateRenderTargetView())return false;
 	if (!ViewPortSetting())return false;
 	if (!PipelineSetting())return false;
+	if (!InitShader())return false;
+
+	return true;
+}
+
+bool D3D::InitShader()
+{
+	ID3DBlob* pCompileVS = nullptr;
+	ID3DBlob* pCompilePS = nullptr;
+
+	//VertexShaderInitialize
+	//	D3DCompileFromFileがE_FAILを返したら(失敗したら)
+	if(FAILED(D3DCompileFromFile(L"Simple3D.hlsl", nullptr, nullptr, "VS", "vs_5_0", NULL, 0, &pCompileVS, NULL)))return false;
+	if (FAILED(pDevice_->CreateVertexShader(pCompileVS->GetBufferPointer(), pCompileVS->GetBufferSize(), NULL, &pVertexShader_)))return false;
+	
+	//VertexInputRayout
+	D3D11_INPUT_ELEMENT_DESC layout[] = {
+
+		{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0,  D3D11_INPUT_PER_VERTEX_DATA, 0 },	//位置
+	};
+	if (FAILED(pDevice_->CreateInputLayout(layout, 1, pCompileVS->GetBufferPointer(), pCompileVS->GetBufferSize(), &pVertexLayout_)))return false;
+
+	pCompileVS->Release();
+
+	//PixelShaderInitialize
+	if (FAILED(D3DCompileFromFile(L"Simple3D.hlsl", nullptr, nullptr, "PS", "ps_5_0", NULL, 0, &pCompilePS, NULL)))return false;
+	if (FAILED(pDevice_->CreatePixelShader(pCompilePS->GetBufferPointer(), pCompilePS->GetBufferSize(), NULL, &pPixelShader_)))return false;
+	pCompilePS->Release();
+
+	//CreateRasterizer
+	D3D11_RASTERIZER_DESC rdc = {};
+	rdc.CullMode = D3D11_CULL_BACK;
+	rdc.FillMode = D3D11_FILL_SOLID;
+	rdc.FrontCounterClockwise = FALSE;
+	if (FAILED(pDevice_->CreateRasterizerState(&rdc, &pRasterizerState_)))return false;
+
+	//それぞれをデバイスコンテキストにセット
+	pContext_->VSSetShader(pVertexShader_, NULL, 0);
+	pContext_->PSSetShader(pPixelShader_, NULL, 0);
+	pContext_->IASetInputLayout(pVertexLayout_);	
+	pContext_->RSSetState(pRasterizerState_);	
 
 	return true;
 }
@@ -94,7 +139,7 @@ bool D3D::CreateRenderTargetView()
 
 bool D3D::ViewPortSetting()
 {
-//レンダリング結果を表示する範囲
+	//レンダリング結果を表示する範囲
 	vp_.Width = (float)windowSizeW;	//幅
 	vp_.Height = (float)windowSizeH;//高さ
 	vp_.MinDepth = 0.0f;	//手前
@@ -140,12 +185,15 @@ bool D3D::EndDraw()
 
 void D3D::Release()
 {
+	SAFE_RELEASE(pRasterizerState_);
+	SAFE_RELEASE(pVertexLayout_);
+	SAFE_RELEASE(pPixelShader_);
+	SAFE_RELEASE(pVertexShader_);
+
 	SAFE_RELEASE(pRenderTargetView_);
 	SAFE_RELEASE(pSwapChain_);
 	SAFE_RELEASE(pContext_);
 	SAFE_RELEASE(pDevice_);
-
-
 }
 
 D3D& D3D::GetInstance()

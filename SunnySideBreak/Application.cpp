@@ -7,7 +7,6 @@ Application::Application()
 
 bool Application::Initialize(HINSTANCE _hInstance, int _nCmdShow)
 {
-
 	WindowManager* wm = &WindowManager::GetInstance();
 	D3D* d3d = &D3D::GetInstance();
 	Window* w = new Window("aaa");
@@ -30,13 +29,10 @@ void Application::Run()
 	MSG msg;
 	ZeroMemory(&msg, sizeof(msg));
 	while (msg.message != WM_QUIT) {
-		//メッセージあり
 		if (PeekMessage(&msg, NULL, 0U, 0U, PM_REMOVE)) {
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
 		}
-
-		//メッセージなし
 		else {
 			d3d->StartDraw();
 			d3d->EndDraw();
