@@ -12,6 +12,12 @@ D3D::~D3D()
 {
 }
 
+void D3D::StringToLPCWSTR(const std::string& str , std::wstring& src) {
+	string temp = str + ".hlsl";
+	std::wstring wstr(temp.begin(), temp.end());
+	src = wstr;
+}
+
 bool D3D::Initialize(Window * w)
 {
 	windowSizeW = w->GetWidth();
@@ -23,6 +29,7 @@ bool D3D::Initialize(Window * w)
 	if (!CreateRenderTargetView())return false;
 	if (!ViewPortSetting())return false;
 	if (!PipelineSetting())return false;
+	ShaderManager::AddShader("Simple3D");
 	if (!InitShader())return false;
 
 	return true;
@@ -30,33 +37,43 @@ bool D3D::Initialize(Window * w)
 
 bool D3D::InitShader()
 {
+
+	for (auto i = 0u; i < ShaderManager::shaderKinds_.size(); i++)
+	{
 	ID3DBlob* pCompileVS = nullptr;
 	ID3DBlob* pCompilePS = nullptr;
 
+	wstring str = {};
+	StringToLPCWSTR(ShaderManager::shaderKinds_[i] , str);
+
 	//VertexShaderInitialize
 	//	D3DCompileFromFileがE_FAILを返したら(失敗したら)
-	if(FAILED(D3DCompileFromFile(L"Simple3D.hlsl", nullptr, nullptr, "VS", "vs_5_0", NULL, 0, &pCompileVS, NULL)))return false;
+	if(FAILED(D3DCompileFromFile(str.c_str(), nullptr, nullptr, "VS", "vs_5_0", NULL, 0, &pCompileVS, NULL)))return false;
 	if (FAILED(pDevice_->CreateVertexShader(pCompileVS->GetBufferPointer(), pCompileVS->GetBufferSize(), NULL, &pVertexShader_)))return false;
 	
-	//VertexInputRayout
-	D3D11_INPUT_ELEMENT_DESC layout[] = {
 
-		{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0,  D3D11_INPUT_PER_VERTEX_DATA, 0 },	//位置
-	};
-	if (FAILED(pDevice_->CreateInputLayout(layout, 1, pCompileVS->GetBufferPointer(), pCompileVS->GetBufferSize(), &pVertexLayout_)))return false;
+	//VertexInputRayout
+	if (str == L"Simple3D.hlsl")
+		layout_ = ShaderManager::SetVertexInputLayout();
+
+	if (FAILED(pDevice_->CreateInputLayout(layout_.data(), layout_.size(), pCompileVS->GetBufferPointer(), pCompileVS->GetBufferSize(), &pVertexLayout_)))return false;
 
 	pCompileVS->Release();
 
 	//PixelShaderInitialize
-	if (FAILED(D3DCompileFromFile(L"Simple3D.hlsl", nullptr, nullptr, "PS", "ps_5_0", NULL, 0, &pCompilePS, NULL)))return false;
+	if (FAILED(D3DCompileFromFile(str.c_str(), nullptr, nullptr, "PS", "ps_5_0", NULL, 0, &pCompilePS, NULL)))return false;
 	if (FAILED(pDevice_->CreatePixelShader(pCompilePS->GetBufferPointer(), pCompilePS->GetBufferSize(), NULL, &pPixelShader_)))return false;
 	pCompilePS->Release();
 
+	if (ShaderManager::shaderKinds_[i] == "Simple3D") {
+	cs = ShaderManager::AddRasterizer(D3D11_CULL_NONE,D3D11_FILL_SOLID,false);
+	}
+
 	//CreateRasterizer
 	D3D11_RASTERIZER_DESC rdc = {};
-	rdc.CullMode = D3D11_CULL_BACK;
-	rdc.FillMode = D3D11_FILL_SOLID;
-	rdc.FrontCounterClockwise = FALSE;
+	rdc.CullMode = cs.cullSetting;
+	rdc.FillMode = cs.fillSetting;
+	rdc.FrontCounterClockwise = cs.clockWise;
 	if (FAILED(pDevice_->CreateRasterizerState(&rdc, &pRasterizerState_)))return false;
 
 	//それぞれをデバイスコンテキストにセット
@@ -64,7 +81,7 @@ bool D3D::InitShader()
 	pContext_->PSSetShader(pPixelShader_, NULL, 0);
 	pContext_->IASetInputLayout(pVertexLayout_);	
 	pContext_->RSSetState(pRasterizerState_);	
-
+	}
 	return true;
 }
 
@@ -201,5 +218,4 @@ D3D& D3D::GetInstance()
 	static D3D instance;
 	return instance;
 }
-
 

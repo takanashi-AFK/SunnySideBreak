@@ -131,6 +131,7 @@
     <ClCompile Include="D3D.cpp" />
     <ClCompile Include="Global.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="ShaderManager.cpp" />
     <ClCompile Include="Window.cpp" />
     <ClCompile Include="WindowManager.cpp" />
   </ItemGroup>
@@ -138,6 +139,7 @@
     <ClInclude Include="Application.h" />
     <ClInclude Include="D3D.h" />
     <ClInclude Include="Global.h" />
+    <ClInclude Include="ShaderManager.h" />
     <ClInclude Include="Window.h" />
     <ClInclude Include="WindowManager.h" />
   </ItemGroup>
