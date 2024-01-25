@@ -1,4 +1,5 @@
 #include "Window.h"
+#include "ImGui/imgui.h"
 
 Window::Window() :
 	hWnd_(nullptr), windowName(g_GameTitle), width(g_WindowWidth), height(g_WindowHeight)
@@ -21,12 +22,17 @@ Window::~Window()
 
 LRESULT Window::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
+	extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 	switch (msg)
 	{
 	case WM_DESTROY:
 		PostQuitMessage(0);
 		return 0;
 	}
+
+	//ImGuiÇ…èÓïÒÇìnÇ∑
+	if (ImGui_ImplWin32_WndProcHandler(hWnd, msg, wParam, lParam))return true;
+
 	return DefWindowProc(hWnd, msg, wParam, lParam);
 }
 

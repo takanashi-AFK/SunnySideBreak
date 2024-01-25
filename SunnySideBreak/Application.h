@@ -5,6 +5,8 @@
 #include"WindowManager.h"
 #include"D3D.h"
 #include"Global.h"
+#include "Quad.h"
+#include "ImGuiManager.h"
 
 class Application
 {

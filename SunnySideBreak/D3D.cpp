@@ -56,7 +56,9 @@ bool D3D::InitShader()
 	if (str == L"Simple3D.hlsl")
 		layout_ = ShaderManager::SetVertexInputLayout();
 
-	if (FAILED(pDevice_->CreateInputLayout(layout_.data(), layout_.size(), pCompileVS->GetBufferPointer(), pCompileVS->GetBufferSize(), &pVertexLayout_)))return false;
+
+	UINT layoutSize = layout_.size();
+	if (FAILED(pDevice_->CreateInputLayout(layout_.data(), layoutSize, pCompileVS->GetBufferPointer(), pCompileVS->GetBufferSize(), &pVertexLayout_)))return false;
 
 	pCompileVS->Release();
 

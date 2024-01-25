@@ -33,12 +33,14 @@ public:
 
 	void StringToLPCWSTR(const std::string& str , std::wstring& src);
 
+	ID3D11Device* GetDevice() { return pDevice_; };
+	ID3D11DeviceContext* GetContext() { return pContext_; };
+
+
+
 private:
 
 	HWND windowHandle;
-	int windowSizeW, windowSizeH;
-	Cull_Setting cs;
-
 	//D3D‚ğ‰Šú‰»‚·‚é•Ï”ŒQ
 
 	ID3D11Device* pDevice_;
@@ -47,6 +49,8 @@ private:
 	ID3D11RenderTargetView* pRenderTargetView_;
 	DXGI_SWAP_CHAIN_DESC scDesc_;
 	D3D11_VIEWPORT vp_;
+	int windowSizeW, windowSizeH;
+	Cull_Setting cs;
 	
 	//shaderInitialize Valiable
 	ID3D11VertexShader* pVertexShader_;
