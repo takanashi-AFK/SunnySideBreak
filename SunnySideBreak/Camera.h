@@ -5,19 +5,21 @@
 using namespace DirectX;
 class Camera
 {
+public:
 	void Initialize();
 
 	void CreateViewMat();
 
-	void SetPosition(XMVECTOR _position) { position_ = _position; };
+	void SetPosition(XMVECTOR _position) ;
 
-	void SetTarget(XMVECTOR _target) { target_ = _target; };
+	void SetTarget(XMVECTOR _target);
 
-	XMMATRIX GetViewMatrix() { return viewMatrix_; };
+	XMMATRIX GetViewMatrix();
 
-	XMMATRIX GetProjectionMatrix() { return projMatrix_; };
+	XMMATRIX GetProjectionMatrix();
 
-public:
+	static Camera &GetInstance();
+private:
 	XMVECTOR position_;
 	XMVECTOR target_;
 	XMMATRIX viewMatrix_;

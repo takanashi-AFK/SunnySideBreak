@@ -14,3 +14,29 @@ void Camera::CreateViewMat()
     viewMatrix_ = XMMatrixLookAtLH(position_, target_, XMVectorSet(0, 1, 0, 0));
 }
 
+void Camera::SetPosition(XMVECTOR _position)
+{
+    position_ = _position;
+}
+
+void Camera::SetTarget(XMVECTOR _target)
+{
+    target_ = _target;
+}
+
+XMMATRIX Camera::GetViewMatrix()
+{
+    return viewMatrix_;
+}
+
+XMMATRIX Camera::GetProjectionMatrix()
+{
+    return projMatrix_;
+}
+
+Camera &Camera::GetInstance()
+{
+    static Camera instance;
+    return instance;
+}
+
