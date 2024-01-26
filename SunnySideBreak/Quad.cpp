@@ -66,9 +66,7 @@ void Quad::Draw()
 	//コンスタントバッファに渡す情報
 	CONSTANT_BUFFER cb;
 	D3D11_MAPPED_SUBRESOURCE pdata;
-///////////////////ここ直してくれ///////////////////////
 	cb.matWVP = XMMatrixTranspose(pCam->GetViewMatrix() * pCam->GetProjectionMatrix());
-///////////////////////////////////////////////////////
 	pD3D->GetContext()->Map(pConstantBuffer_, 0, D3D11_MAP_WRITE_DISCARD, 0, &pdata);	// GPUからのデータアクセスを止める
 	memcpy_s(pdata.pData, pdata.RowPitch, (void*)(&cb), sizeof(cb));	// データを値を送る
 	pD3D->GetContext()->Unmap(pConstantBuffer_, 0);	//再開
