@@ -12,12 +12,12 @@ void Quad::Initialize()
 {
 	D3D* pD3D = &D3D::GetInstance();
 	// 頂点情報
-	XMVECTOR vertices[] =
+	VERTEX vertices[] =
 	{
-		XMVectorSet(-1.0f,  1.0f, 0.0f, 0.0f),	// 四角形の頂点（左上）
-		XMVectorSet(1.0f,  1.0f, 0.0f, 0.0f),	// 四角形の頂点（右上）
-		XMVectorSet(1.0f, -1.0f, 0.0f, 0.0f),	// 四角形の頂点（右下）
-		XMVectorSet(-1.0f, -1.0f, 0.0f, 0.0f),	// 四角形の頂点（左下）		
+		{ XMVectorSet(-1.0f,  1.0f, 0.0f, 0.0f),XMVectorSet(0.0f, 0.0f, 0.0f, 0.0f) },   // 四角形の頂点（左上）
+		{ XMVectorSet(1.0f,  1.0f, 0.0f, 0.0f),	XMVectorSet(1.0f, 0.0f, 0.0f, 0.0f) },   // 四角形の頂点（右上）
+		{ XMVectorSet(1.0f, -1.0f, 0.0f, 0.0f),	XMVectorSet(1.0f, 1.0f, 0.0f, 0.0f) },   // 四角形の頂点（右下）
+		{ XMVectorSet(-1.0f, -1.0f, 0.0f, 0.0f),XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f) },   // 四角形の頂点（左下）	
 	};
 	D3D11_BUFFER_DESC bd_vertex;
 	bd_vertex.ByteWidth = sizeof(vertices);
@@ -64,15 +64,17 @@ void Quad::Draw()
 	Camera* pCam = &Camera::GetInstance();
 
 	//コンスタントバッファに渡す情報
+
 	CONSTANT_BUFFER cb;
-	D3D11_MAPPED_SUBRESOURCE pdata;
 	cb.matWVP = XMMatrixTranspose(pCam->GetViewMatrix() * pCam->GetProjectionMatrix());
+
+	D3D11_MAPPED_SUBRESOURCE pdata;
 	pD3D->GetContext()->Map(pConstantBuffer_, 0, D3D11_MAP_WRITE_DISCARD, 0, &pdata);	// GPUからのデータアクセスを止める
 	memcpy_s(pdata.pData, pdata.RowPitch, (void*)(&cb), sizeof(cb));	// データを値を送る
 	pD3D->GetContext()->Unmap(pConstantBuffer_, 0);	//再開
 
 	//頂点バッファ
-	UINT stride = sizeof(XMVECTOR);
+	UINT stride = sizeof(VERTEX);
 	UINT offset = 0;
 	pD3D->GetContext()->IASetVertexBuffers(0, 1, &pVertexBuffer_, &stride, &offset);
 

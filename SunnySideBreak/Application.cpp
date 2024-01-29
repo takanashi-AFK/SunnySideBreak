@@ -10,6 +10,7 @@ bool Application::Initialize(HINSTANCE _hInstance, int _nCmdShow)
 	WindowManager* wm = &WindowManager::GetInstance();
 	D3D* d3d = &D3D::GetInstance();
 	ImGuiManager* pImgui = &ImGuiManager::GetInstance();
+	Camera* pCam = &Camera::GetInstance();
 
 	Window* w = new Window("aaa");
 	if(!wm->AddInstance("FirstWindow", w))return false;
@@ -18,6 +19,8 @@ bool Application::Initialize(HINSTANCE _hInstance, int _nCmdShow)
 	if(!wm->AddInstance("SecondWindow", a))return false;*/
 
 	if(!wm->InitializeAllWindow(_hInstance, _nCmdShow))return false;
+
+	pCam->Initialize();
 
 	if (!d3d->Initialize(w))return false; 
 
@@ -43,6 +46,10 @@ void Application::Run()
 			d3d->StartDraw();
 			pImgui->UpDate();
 			pImgui->Feature();
+
+			Camera* pCam = &Camera::GetInstance();
+			pCam->CreateViewMat();
+
 
 			{//Quad
 			Quad* q = new Quad;

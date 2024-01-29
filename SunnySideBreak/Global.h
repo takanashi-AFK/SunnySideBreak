@@ -6,8 +6,8 @@
 /// 各変数の実定義、代入はcppで行っている。
 /// 後々は.iniファイル的なアレで外部から変更可能にしたいと思っている。
 /// </summary>
-extern int g_WindowWidth;
-extern int g_WindowHeight;
+extern float g_WindowWidth;
+extern float g_WindowHeight;
 extern int g_FrameRate;
 extern const char* g_GameTitle;
 

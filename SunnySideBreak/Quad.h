@@ -12,6 +12,12 @@ struct CONSTANT_BUFFER
 	XMMATRIX	matWVP;
 };
 
+struct VERTEX
+{
+	XMVECTOR position;
+	XMVECTOR uv;
+};
+
 class Quad
 {
 

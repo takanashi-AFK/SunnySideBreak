@@ -7,6 +7,7 @@
 #include"Global.h"
 #include "Quad.h"
 #include "ImGuiManager.h"
+#include "Camera.h"
 
 class Application
 {

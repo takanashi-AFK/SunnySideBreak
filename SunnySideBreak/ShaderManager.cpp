@@ -1,4 +1,5 @@
 #include "ShaderManager.h"
+#include <DirectXMath.h>
 namespace ShaderManager {
 	vector<string> shaderKinds_;//‚±‚Ì”•ªD3D::InitShader‚ğ‰ñ‚·
 
@@ -8,6 +9,7 @@ vector<D3D11_INPUT_ELEMENT_DESC> ShaderManager::SetVertexInputLayout()
 {
 	vector<D3D11_INPUT_ELEMENT_DESC> layout = {
 		{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0,  D3D11_INPUT_PER_VERTEX_DATA, 0 },	//ˆÊ’u
+		{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, sizeof(DirectX::XMVECTOR) , D3D11_INPUT_PER_VERTEX_DATA, 0 },//UVÀ•W
 	};
 	return layout;
 }
