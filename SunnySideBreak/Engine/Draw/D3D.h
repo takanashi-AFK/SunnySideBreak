@@ -1,7 +1,7 @@
 #pragma once
 #include <d3d11.h>
-#include"Global.h"
-#include "Window.h"
+#include"../Other/Global.h"
+#include "../Window/Window.h"
 #include "ShaderManager.h"
 #include <vector>
 

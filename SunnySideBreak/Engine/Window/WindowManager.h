@@ -1,7 +1,7 @@
 #pragma once
 #include<map>
-#include"Window.h"
-#include"D3D.h"
+#include"../Window/Window.h"
+#include"../Draw/D3D.h"
 #include<string>
 /// <summary>
 /// window‚ğ•¡”¶¬‚Å‚«‚é‚æ‚¤‚É‚·‚é‚½‚ß‚ÉŠÇ—‚·‚éƒNƒ‰ƒXB

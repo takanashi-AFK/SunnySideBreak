@@ -1,9 +1,9 @@
 #pragma once
 
 #include <DirectXMath.h>
-#include "D3D.h"
+#include"../Draw/D3D.h"
 #include "Camera.h"
-#include "XTexture.h"
+#include "../Draw/XTexture.h"
 #include "Transform.h"
 
 using namespace DirectX;

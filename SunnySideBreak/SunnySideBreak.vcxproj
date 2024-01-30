@@ -127,31 +127,31 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Application.cpp" />
-    <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="D3D.cpp" />
-    <ClCompile Include="Global.cpp" />
-    <ClCompile Include="ImGuiManager.cpp" />
+    <ClCompile Include="Engine\Other\Application.cpp" />
+    <ClCompile Include="Engine\Other\Camera.cpp" />
+    <ClCompile Include="Engine\Draw\D3D.cpp" />
+    <ClCompile Include="Engine\Other\Global.cpp" />
+    <ClCompile Include="Engine\Other\ImGuiManager.cpp" />
     <ClCompile Include="ImGui\imgui.cpp" />
     <ClCompile Include="ImGui\imgui_draw.cpp" />
     <ClCompile Include="ImGui\imgui_impl_dx11.cpp" />
     <ClCompile Include="ImGui\imgui_impl_win32.cpp" />
     <ClCompile Include="ImGui\imgui_tables.cpp" />
     <ClCompile Include="ImGui\imgui_widgets.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="Quad.cpp" />
-    <ClCompile Include="ShaderManager.cpp" />
-    <ClCompile Include="Transform.cpp" />
-    <ClCompile Include="Window.cpp" />
-    <ClCompile Include="WindowManager.cpp" />
-    <ClCompile Include="XTexture.cpp" />
+    <ClCompile Include="Engine\Other\main.cpp" />
+    <ClCompile Include="Engine\Other\Quad.cpp" />
+    <ClCompile Include="Engine\Draw\ShaderManager.cpp" />
+    <ClCompile Include="Engine\Other\Transform.cpp" />
+    <ClCompile Include="Engine\Window\Window.cpp" />
+    <ClCompile Include="Engine\Window\WindowManager.cpp" />
+    <ClCompile Include="Engine\Draw\XTexture.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Application.h" />
-    <ClInclude Include="Camera.h" />
-    <ClInclude Include="D3D.h" />
-    <ClInclude Include="Global.h" />
-    <ClInclude Include="ImGuiManager.h" />
+    <ClInclude Include="Engine\Other\Application.h" />
+    <ClInclude Include="Engine\Other\Camera.h" />
+    <ClInclude Include="Engine\Draw\D3D.h" />
+    <ClInclude Include="Engine\Other\Global.h" />
+    <ClInclude Include="Engine\Other\ImGuiManager.h" />
     <ClInclude Include="ImGui\imconfig.h" />
     <ClInclude Include="ImGui\imgui.h" />
     <ClInclude Include="ImGui\imgui_impl_dx11.h" />
@@ -160,12 +160,12 @@
     <ClInclude Include="ImGui\imstb_rectpack.h" />
     <ClInclude Include="ImGui\imstb_textedit.h" />
     <ClInclude Include="ImGui\imstb_truetype.h" />
-    <ClInclude Include="Quad.h" />
-    <ClInclude Include="ShaderManager.h" />
-    <ClInclude Include="Transform.h" />
-    <ClInclude Include="Window.h" />
-    <ClInclude Include="WindowManager.h" />
-    <ClInclude Include="XTexture.h" />
+    <ClInclude Include="Engine\Other\Quad.h" />
+    <ClInclude Include="Engine\Draw\ShaderManager.h" />
+    <ClInclude Include="Engine\Other\Transform.h" />
+    <ClInclude Include="Engine\Window\Window.h" />
+    <ClInclude Include="Engine\Window\WindowManager.h" />
+    <ClInclude Include="Engine\Draw\XTexture.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Simple3D.hlsl">

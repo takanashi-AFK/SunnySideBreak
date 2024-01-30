@@ -1,7 +1,7 @@
 #pragma once
 #include <Windows.h>
 #include<string>
-#include "Global.h"
+#include "../Other/Global.h"
 
 /// <summary>
 /// windowクラスの作成、初期化、

@@ -1,6 +1,6 @@
 #pragma once
-#include "D3D.h"
-#include "Global.h"
+#include"../Draw/D3D.h"
+#include "../Other/Global.h"
 #include <DirectXMath.h>
 using namespace DirectX;
 class Camera

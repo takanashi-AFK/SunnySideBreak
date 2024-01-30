@@ -1,5 +1,5 @@
 #include "Window.h"
-#include "ImGui/imgui.h"
+#include "../../ImGui/imgui.h"
 
 Window::Window() :
 	hWnd_(nullptr), windowName(g_GameTitle), width(g_WindowWidth), height(g_WindowHeight)

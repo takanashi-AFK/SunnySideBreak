@@ -1,10 +1,10 @@
 #pragma once
 //インクルード
 #include <Windows.h>
-#include "Window.h"
-#include"WindowManager.h"
-#include"D3D.h"
-#include"Global.h"
+#include "../Window/Window.h"
+#include"../Window/WindowManager.h"
+#include"../Draw/D3D.h"
+#include"../Other/Global.h"
 #include "Quad.h"
 #include "ImGuiManager.h"
 #include "Camera.h"
