@@ -14,10 +14,10 @@ void Quad::Initialize()
 	// 頂点情報
 	VERTEX vertices[] =
 	{
-		{ XMVectorSet(-1.0f,  1.0f, 0.0f, 0.0f),XMVectorSet(0.0f, 0.0f, 0.0f, 0.0f) },   // 四角形の頂点（左上）
-		{ XMVectorSet(1.0f,  1.0f, 0.0f, 0.0f),	XMVectorSet(1.0f, 0.0f, 0.0f, 0.0f) },   // 四角形の頂点（右上）
-		{ XMVectorSet(1.0f, -1.0f, 0.0f, 0.0f),	XMVectorSet(1.0f, 1.0f, 0.0f, 0.0f) },   // 四角形の頂点（右下）
-		{ XMVectorSet(-1.0f, -1.0f, 0.0f, 0.0f),XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f) },   // 四角形の頂点（左下）	
+		{ XMVectorSet(-1.0f,  1.0f, 0.0f, 0.0f),XMVectorSet(0.0f, 0.0f, 0.0f, 0.0f),XMVectorSet(-1.0f,  1.0f, 0.0f, 0.0f) },   // 四角形の頂点（左上）
+		{ XMVectorSet(1.0f,  1.0f, 0.0f, 0.0f),	XMVectorSet(1.0f, 0.0f, 0.0f, 0.0f) , XMVectorSet(1.0f,  1.0f, 0.0f, 0.0f)},   // 四角形の頂点（右上）
+		{ XMVectorSet(1.0f, -1.0f, 0.0f, 0.0f),	XMVectorSet(1.0f, 1.0f, 0.0f, 0.0f),XMVectorSet(1.0f, -1.0f, 0.0f, 0.0f)},   // 四角形の頂点（右下）
+		{ XMVectorSet(-1.0f, -1.0f, 0.0f, 0.0f),XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f), XMVectorSet(-1.0f, -1.0f, 0.0f, 0.0f) },   // 四角形の頂点（左下）	
 	};
 	D3D11_BUFFER_DESC bd_vertex;
 	bd_vertex.ByteWidth = sizeof(vertices);
@@ -56,21 +56,31 @@ void Quad::Initialize()
 
 	// コンスタントバッファの作成
 	pD3D->GetDevice()->CreateBuffer(&cb, nullptr, &pConstantBuffer_);
+
+	pTexture_ = new XTexture;
+	pTexture_->Load(L"Assets/brick_wall_005_diff_2k.jpg");
 }
 
-void Quad::Draw()
+void Quad::Draw(XMMATRIX& _worldMatrix)
 {
 	D3D* pD3D = &D3D::GetInstance();
 	Camera* pCam = &Camera::GetInstance();
+	Transform *t = new Transform;
+
 
 	//コンスタントバッファに渡す情報
 
 	CONSTANT_BUFFER cb;
-	cb.matWVP = XMMatrixTranspose(pCam->GetViewMatrix() * pCam->GetProjectionMatrix());
+	cb.matWVP = XMMatrixTranspose(_worldMatrix * pCam->GetViewMatrix() * pCam->GetProjectionMatrix());
+	cb.matNormal = t->GetNormalMatrix();
 
 	D3D11_MAPPED_SUBRESOURCE pdata;
 	pD3D->GetContext()->Map(pConstantBuffer_, 0, D3D11_MAP_WRITE_DISCARD, 0, &pdata);	// GPUからのデータアクセスを止める
 	memcpy_s(pdata.pData, pdata.RowPitch, (void*)(&cb), sizeof(cb));	// データを値を送る
+	ID3D11SamplerState* pSampler = pTexture_->GetSampler();
+	pD3D->GetContext()->PSSetSamplers(0, 1, &pSampler);
+	ID3D11ShaderResourceView* pSRV = pTexture_->GetSRV();
+	pD3D->GetContext()->PSSetShaderResources(0, 1, &pSRV);
 	pD3D->GetContext()->Unmap(pConstantBuffer_, 0);	//再開
 
 	//頂点バッファ
@@ -91,4 +101,11 @@ void Quad::Draw()
 
 void Quad::Release()
 {
+	pTexture_->Release();
+	SAFE_DELETE(pTexture_);
+
+	SAFE_DELETE(pConstantBuffer_);
+	SAFE_DELETE(pIndexBuffer_);
+	SAFE_DELETE(pVertexBuffer_);
+
 }

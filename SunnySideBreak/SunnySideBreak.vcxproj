@@ -141,6 +141,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Quad.cpp" />
     <ClCompile Include="ShaderManager.cpp" />
+    <ClCompile Include="Transform.cpp" />
     <ClCompile Include="Window.cpp" />
     <ClCompile Include="WindowManager.cpp" />
     <ClCompile Include="XTexture.cpp" />
@@ -161,6 +162,7 @@
     <ClInclude Include="ImGui\imstb_truetype.h" />
     <ClInclude Include="Quad.h" />
     <ClInclude Include="ShaderManager.h" />
+    <ClInclude Include="Transform.h" />
     <ClInclude Include="Window.h" />
     <ClInclude Include="WindowManager.h" />
     <ClInclude Include="XTexture.h" />

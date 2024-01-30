@@ -3,14 +3,14 @@
 #include "string"
 #include "D3D.h"
 
-class Texture
+class XTexture
 {
 	ID3D11SamplerState* pSampler_;
 	ID3D11ShaderResourceView* pSRV_;
 
 public:
-	Texture();
-	~Texture();
+	XTexture();
+	~XTexture();
 	HRESULT Load(LPCWSTR fileName);
 	void Release();
 

@@ -6,15 +6,15 @@
 
 using namespace DirectX;
 
-Texture::Texture()
+XTexture::XTexture()
 {
 }
 
-Texture::~Texture()
+XTexture::~XTexture()
 {
 }
 
-HRESULT Texture::Load(LPCWSTR fileName)
+HRESULT XTexture::Load(LPCWSTR fileName)
 {
 	D3D* pD3D = &D3D::GetInstance();
 	TexMetadata metadata;
@@ -42,6 +42,16 @@ HRESULT Texture::Load(LPCWSTR fileName)
 
 }
 
-void Texture::Release()
+void XTexture::Release()
 {
+}
+
+ID3D11SamplerState* XTexture::GetSampler()
+{
+	return pSampler_;
+}
+
+ID3D11ShaderResourceView* XTexture::GetSRV()
+{
+	return pSRV_;
 }

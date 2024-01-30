@@ -54,7 +54,8 @@ void Application::Run()
 			{//Quad
 			Quad* q = new Quad;
 			q->Initialize();
-			q->Draw();
+			XMMATRIX mat = XMMatrixRotationY(XMConvertToRadians(45));
+			q->Draw(mat);
 			}
 
 			pImgui->Draw();
